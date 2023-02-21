@@ -1,4 +1,4 @@
-export type BookmarkProps = {
+export interface BookmarkType {
   title: string;
   url: string;
   description?: string;
