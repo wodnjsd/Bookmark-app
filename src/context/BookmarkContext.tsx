@@ -1,42 +1,66 @@
-// import { createContext, useContext, ReactNode, useState } from "react";
-// import { BookmarkType } from "../types/bookmark";
-// import { useLocalStorage } from "../hooks/useLocalStorage";
+import { createContext, useContext, ReactNode, useState } from "react";
+import { BookmarkType } from "../types/bookmark";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
-// type BookmarkContext = {
-//   addLink: () => void
-//   removeLink: () => void
-// }
+type BookmarkProviderProps = {
+  children: ReactNode
+}
 
-// const BookmarkContext = createContext({} as BookmarkContext)
+type BookmarkContext = {
+  addLink: (title: string, url: string, description: string, fave: boolean) => void
+  removeLink: (title: string) => void
+  editLinks: (title: string, newTitle: string, newUrl: string, newDescription: string) => void
+  bookmarks: BookmarkItem[]
+}
 
-// export function useBookmarkContext() {
-//   return useContext(BookmarkContext)
-// }
+type BookmarkItem = {
+  title: string,
+  url: string
+}
 
-// type BookmarkProviderProps = {
-//   children: ReactNode
-// }
+const BookmarkContext = createContext({} as BookmarkContext)
 
-
-
-// export function BookmarkProvider({ children }: BookmarkProviderProps) {
-//   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("Bookmarks", [])
-
-//   function addLink() {
-//     const newBookmark = { title, url, description, fave }
-//     setBookmarks([...bookmarks, newBookmark])
-//   }
-//     const removeLink = (linkToDelete:string):void => {
-//       setBookmarks(bookmarks.filter((link) => {
-//         return link.title !== linkToDelete
-//       }))
-//     }
-  
+export function useBookmarkContext() {
+  return useContext(BookmarkContext)
+}
 
 
 
-//   }
-//   return <BookmarkContext.Provider value={{}}>
-//     {children}
-//   </BookmarkContext.Provider>
-// }
+
+
+export function BookmarkProvider({ children }: BookmarkProviderProps) {
+  const [bookmarks, setBookmarks] = useLocalStorage<BookmarkItem[]>("saved", [])
+
+  const addLink = (title: string, url: string, description: string, fave: boolean) => {
+    const newBookmark = { title, url, description, fave }
+    // if (isUrl(url) === false) {
+    //   return alert("not valid url")
+    // }
+    if (bookmarks.find(link => link.title === title)) {
+      return alert("title already present")
+    }
+    if (bookmarks.find(link => link.url === url)) {
+      return alert("url already present")
+    }
+    setBookmarks([...bookmarks, newBookmark])
+  }
+
+  const removeLink = (linkToDelete: string): void => {
+    setBookmarks(bookmarks.filter((link) => {
+      return link.title !== linkToDelete
+    }))
+  }
+
+  const editLinks = (linkToEdit: string, newTitle: string, newUrl: string, newDescription: string): void => {
+    const toEdit = bookmarks.filter(link => link.title === linkToEdit)
+    const newEdit = { title: newTitle, url: newUrl, description: newDescription }
+    setBookmarks([...bookmarks, newEdit])
+
+  }
+
+
+  return (<BookmarkContext.Provider value={{ addLink, removeLink, editLinks, bookmarks }}>
+    {children}
+  </BookmarkContext.Provider>
+  )
+}
