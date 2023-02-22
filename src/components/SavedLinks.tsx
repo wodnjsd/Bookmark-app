@@ -1,18 +1,20 @@
 import { FormEvent, useState } from 'react'
 import { HiOutlineStar } from "react-icons/hi2";
 import { BookmarkType } from '../types/bookmark'
-import { HiOutlineTrash } from 'react-icons/hi2'
+import { HiOutlineTrash, HiOutlinePencil } from 'react-icons/hi2'
 import Popup from './Popup';
-
+import Editform from './Editform'
 
 type Props = {
   title: string;
-  url?: string;
+  url: string;
   description?: string;
   fave?: boolean;
   removeLink(linkToDelete: string): void;
-  // editLink(linkToEdit: string, newTitle: string, newUrl: string): void;
-  // isFave(linkFave: string): void
+  editLink(linkToEdit: string): void
+  setUrl: React.Dispatch<React.SetStateAction<string>>;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 // function isFave(title: string): void {
@@ -21,10 +23,9 @@ type Props = {
 //   ))
 // }
 
-const SavedLinks = ({ title, url, description, fave, removeLink }: Props) => {
+const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitle, editLink }: Props) => {
   const [edit, setEdit] = useState(false)
-  const [newUrl, setNewUrl] = useState("")
-  const [newTitle, setNewTitle] = useState("")
+
   const [popup, setPopup] = useState(false)
   // const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
   // const [currentPage, setCurrentPage] = useState(1)
@@ -56,13 +57,22 @@ const SavedLinks = ({ title, url, description, fave, removeLink }: Props) => {
           </a>
         </div>
         <div className="flex gap-5">
+        <button onClick={() => setEdit(true)}><HiOutlinePencil /></button>
           <button onClick={() => setPopup(true)}><HiOutlineTrash /></button>
           <button><HiOutlineStar />
           </button>
+          {edit ? (
+          <Editform
+            setEdit={setEdit}
+            setUrl={setUrl}
+            setTitle={setTitle}
+            editLink={editLink}
+            title={title}
+            url={url}/>) : (''
+        )}
         </div>
         {popup ? (
           <Popup
-            popup={popup}
             setPopup={setPopup} 
             removeLink={removeLink}
             title={title}/>) : (''

@@ -5,9 +5,10 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
 import { Popover } from '@headlessui/react'
-import { HiOutlinePencil, HiOutlineBookmark } from 'react-icons/hi2'
+import { HiOutlinePencil } from 'react-icons/hi2'
 import { BiBookmarkAlt, BiLinkAlt } from 'react-icons/bi'
 import Form22 from './NewForm';
+import Editform from './Editform'
 
 
 const Forms = () => {
@@ -17,6 +18,7 @@ const Forms = () => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [fave, setFave] = useState(false)
+  const [ edit, setEdit ] = useState(false)
   // const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
 
@@ -133,21 +135,11 @@ const Forms = () => {
                 key={item.title}
                 title={item.title}
                 url={item.url}
-                removeLink={removeLink} />
-
-              <Popover>
-                <Popover.Button className="flex hover:text-gray-700"><HiOutlinePencil /></Popover.Button>
-
-                <Popover.Panel><form >
-                  <input type="text" defaultValue={item.title} placeholder={item.title} onChange={(e) => setTitle(e.target.value)} >
-                  </input>
-                  <input type="text" defaultValue={item.url} placeholder={item.url} onChange={(e) => setUrl(e.target.value)}>
-                  </input>
-                </form>
-                  {/* <button type="submit" className="border" onClick={() => { editLink(title, newTitle, newUrl) }}>Edit</button> */}
-                  <Popover.Button onClick={() => editLink(item.title)} className="border">Update</Popover.Button>
-                </Popover.Panel>
-              </Popover>
+                removeLink={removeLink}
+                setUrl={setUrl}
+                setTitle={setTitle} 
+                editLink={editLink}
+               />
             </div>
           ))}
 
