@@ -11,7 +11,6 @@ type Props = {
 
 const Pagination = ({ linksPerPage, totalLinks, paginate, next, previous }: Props) => {
 
-
   const pageNumbers = []
   for (let i = 1; i <= Math.ceil(totalLinks / linksPerPage); i++) {
     pageNumbers.push(i)
