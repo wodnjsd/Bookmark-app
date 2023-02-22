@@ -9,32 +9,34 @@ type Props = {
   editLink(linkToEdit: string): void
 }
 
-const Editform = ({ title, setEdit, url, setUrl, setTitle, editLink}: Props) => {
+const Editform = ({ title, setEdit, url, setUrl, setTitle, editLink }: Props) => {
 
   const [description, setDescription] = useState("")
 
   return (
-    <div className="absolute z-20 bg-slate-100 rounded-md flex flex-col justify-between items-center border-md ">
-      <div className="text-gray-600 p-2 flex justify-center text-sm">
-        Make changes to your bookmarks here. Click save when you're done
-      </div>
-
-      <form className="flex flex-col p-5 gap-2" >
-      <label>Title</label>
-        <input type="text" defaultValue={title} placeholder={title} onChange={(e) => setTitle(e.target.value)} >
-        </input>
-        <label>Website URL</label>
-        <input type="text" defaultValue={url} placeholder={url} onChange={(e) => setUrl(e.target.value)}>
-        </input>
-        <div className="flex gap-5">
-          <button onClick={() => {setEdit(false); editLink(title)}} className="border rounded-md px-5 py-1 text-sm text-white bg-gray-800">
-            Save changes
-          </button>
-          <button onClick={() => setEdit(false)}className="border rounded-md px-5 py-1 text-sm">
-            Cancel
-          </button>
+    <div className="absolute h-screen w-screen flex flex-col justify-center items-center top-0 left-0 z-20 backdrop-blur-sm">
+      <div className="mx-5 flex flex-col justify-between p-5 rounded-lg bg-slate-100">
+        <div className="text-gray-600 p-2 flex justify-center text-sm">
+          Make changes to your bookmarks here. Click save when you're done
         </div>
-      </form>
+
+        <form className="flex flex-col p-5 gap-2" >
+          <label>Title</label>
+          <input type="text" defaultValue={title} placeholder={title} onChange={(e) => setTitle(e.target.value)} >
+          </input>
+          <label>Website URL</label>
+          <input type="text" className="border rounded-lg p-1" defaultValue={url} placeholder={url} onChange={(e) => setUrl(e.target.value)}>
+          </input>
+          <div className="flex gap-5 mt-5">
+            <button onClick={() => { setEdit(false); editLink(title) }} className="border rounded-lg px-5 py-2 text-xs text-white bg-gray-800">
+              Save changes
+            </button>
+            <button onClick={() => setEdit(false)} className="border rounded-md px-5 py-2 text-xs">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
