@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
 
 type Props = {
@@ -21,13 +21,12 @@ const Pagination = ({ linksPerPage, totalLinks, paginate, next, previous }: Prop
       <ul className="flex justify-between">
         <li>
           <a onClick={previous} href='#'>
-            <HiArrowLongLeft />
+            <HiArrowLongLeft className="mx-2 mt-1"/>
           </a>
         </li>
-
         {pageNumbers.map(pgNumber => (
           <li key={pgNumber}>
-            <a onClick={() => paginate(pgNumber)} href="#" className="text-pink-600 hover:underline">
+            <a onClick={() => paginate(pgNumber)} href="#" className="hover:underline">
               {pgNumber}
             </a>
           </li>
@@ -35,7 +34,7 @@ const Pagination = ({ linksPerPage, totalLinks, paginate, next, previous }: Prop
         ))}
         <li>
           <a onClick={next} href='#'>
-            <HiArrowLongRight />
+            <HiArrowLongRight className="mx-2 mt-1"/>
           </a>
         </li>
       </ul>

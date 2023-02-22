@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 type Props = {
   setPopup: React.Dispatch<React.SetStateAction<boolean>>;

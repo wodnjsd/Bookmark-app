@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react'
+import { useState } from 'react'
 
 type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;

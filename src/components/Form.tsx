@@ -4,21 +4,16 @@ import SavedLinks from './SavedLinks'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
-import { Popover } from '@headlessui/react'
-import { HiOutlinePencil } from 'react-icons/hi2'
 import { BiBookmarkAlt, BiLinkAlt } from 'react-icons/bi'
-import Form22 from './NewForm';
-import Editform from './Editform'
 
 
 const Forms = () => {
 
- 
   const [url, setUrl] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [fave, setFave] = useState(false)
-  const [ edit, setEdit ] = useState(false)
+  const [edit, setEdit] = useState(false)
   // const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
 
@@ -55,9 +50,9 @@ const Forms = () => {
   //! create nice alerts/ messages
   function addLink() {
     const newBookmark = { title, url, description, fave }
-    // if (isUrl(url) === false) {
-    //   return alert("not valid url")
-    // }
+    if (isUrl(url) === false) {
+      return alert("not valid url")
+    }
     if (bookmarks.find(link => link.title === title)) {
       return alert("title already present")
     }
@@ -113,41 +108,41 @@ const Forms = () => {
 
   return (
     <>
-      <div className="mt-10 p-30 flex flex-col justify-center items-center">
-        {/* <Form22
-          handleSubmit={handleSubmit} /> */}
-        <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-3">
-          <div className="flex"><BiBookmarkAlt className="mt-1 mx-1" />Create bookmark</div>
-          <label>Title</label>
-          <input autoFocus required type="text" value={title} placeholder="Name" onChange={(e) => setTitle(e.target.value)}></input>
+      <div className="mt-10 flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-3 w-3/5">
+          <div className="flex gap-1 my-5 font-semibold text-lg"><BiBookmarkAlt className="mt-1 mx-1" />Create bookmark</div>
+          {/* <label>Title</label>
+          <input autoFocus required type="text" value={title} placeholder="Name" onChange={(e) => setTitle(e.target.value)}></input> */}
           <label>Website URL</label>
-          <input required type="text" className="border rounded-md" value={url} placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)}></input>
-          <label>Description</label>
-          <input type="text" value={description} placeholder="description" onChange={(e) => setDescription(e.target.value)} />
-          {/* <label>Favourite?</label> */}
-          <button type="submit" className="bg-gray-800 rounded-md text-slate-100 text-sm py-1">Add bookmark</button>
-        </form>{/* Make adding disabled if no url */}
-        <div className="flex flex-col justify-between items-center mt-10 mx-10 w-3/5">
-          <div className="flex my-5"><BiLinkAlt className="mt-1 mx-1" />Your links:</div>
-          {currentLinks.map((item: BookmarkType) => (
-            <div className="w-full">
-              <SavedLinks
-                key={item.title}
-                title={item.title}
-                url={item.url}
-                removeLink={removeLink}
-                setUrl={setUrl}
-                setTitle={setTitle} 
-                editLink={editLink}
-               />
-            </div>
-          ))}
+          <input type="text" required={isUrl(url)} className="border rounded-md p-1 invalid:border-red-500" value={url} placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)}></input>
+          {/* <label>Description</label>
+          <input type="text" value={description} placeholder="description" onChange={(e) => setDescription(e.target.value)} /> */}
+          <button type="submit" disabled={!url} className="bg-gray-800 text-white disabled:opacity-50 rounded-md text-sm mt-5 py-1">Add bookmark</button>
+        </form>
+        <div className="flex flex-col justify-between  mt-10 mx-10 w-3/5 border-t border-gray-400">
+          <div className="flex my-8"><BiLinkAlt className="mt-1 mx-1" />Your links:</div>
+          <div className="">
+            {bookmarks.length > 0 ? <div className="flex flex-col items-center gap-5">  {currentLinks.map((item: BookmarkType) => (
+              <div className="w-full">
+                <SavedLinks
+                  key={item.title}
+                  title={item.title}
+                  url={item.url}
+                  removeLink={removeLink}
+                  setUrl={setUrl}
+                  setTitle={setTitle}
+                  editLink={editLink}
+                />
+              </div>
+            ))}
+              <Pagination linksPerPage={linksPerPage} totalLinks={bookmarks.length} paginate={paginate} next={next} previous={previous} />
+              <button className="text-sm rounded-md px-2 py-1 bg-gray-900 text-slate-100" onClick={removeAll}>
+                Clear all
+              </button></div>
+              : <div className="flex flex-col items-center mt-10"><p>No bookmarks yet</p>
+              <p className="text-gray-500 text-xs">Start adding now!</p></div>}
+          </div>
 
-
-          <Pagination linksPerPage={linksPerPage} totalLinks={bookmarks.length} paginate={paginate} next={next} previous={previous} />
-          <button className="text-sm rounded-md px-2 py-1 bg-gray-900 text-slate-100" onClick={removeAll}>
-            Clear all
-          </button>
         </div>
 
 

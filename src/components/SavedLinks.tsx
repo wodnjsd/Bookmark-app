@@ -48,7 +48,7 @@ const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitl
   return (
     <>
       <div className="flex justify-between px-4  border rounded-md w-full">
-        <div className="">
+        <div className="py-2">
           <h3 className="text-lg">
             {title}
           </h3>
