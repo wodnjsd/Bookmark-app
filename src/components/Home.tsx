@@ -4,6 +4,7 @@ import { BookmarkType } from "../types/bookmark";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { BookmarkProvider } from '../context/Contexts';
 
+
 type Props = {}
 
 const Home = (props: Props) => {
@@ -18,10 +19,9 @@ const Home = (props: Props) => {
         </div>
 
       </div>
-      <BookmarkProvider>
-        <Form />
 
-      </BookmarkProvider>
+      <Form />
+
     </>
   )
 }

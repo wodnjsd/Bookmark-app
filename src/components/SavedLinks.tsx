@@ -7,12 +7,14 @@ import Editform from './Editform'
 type Props = {
   title: string 
   url: string;
-  description?: string;
+  id: string;
   fave?: boolean;
   removeLink(linkToDelete: string): void;
   editLink(linkToEdit: string): void
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
+  // setNewUrl: React.Dispatch<React.SetStateAction<string>>;
+  // setNewTitle: React.Dispatch<React.SetStateAction<string>>;
 
 }
 
@@ -22,7 +24,7 @@ type Props = {
 //   ))
 // }
 
-const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitle, editLink }: Props) => {
+const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink }: Props) => {
   const [edit, setEdit] = useState(false)
   const [popup, setPopup] = useState(false)
 
@@ -36,10 +38,11 @@ const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitl
           <a href={url} target="blank" className=" hover:text-gray-700 text-sm font-light">
             {url}
           </a>
+          <img src={`https://www.google.com/s2/favicons?domain=${url}`}></img>
         </div>
         <div className="flex gap-5">
-        <button onClick={() => setEdit(true)}><HiOutlinePencil /></button>
-          <button onClick={() => setPopup(true)}><HiOutlineTrash /></button>
+        <button disabled={popup} onClick={() => setEdit(true)}><HiOutlinePencil /></button>
+          <button disabled={edit} onClick={() => setPopup(true)}><HiOutlineTrash /></button>
           {/* <button><HiOutlineStar />
           </button> */}
           {edit ? (
@@ -49,6 +52,7 @@ const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitl
             setTitle={setTitle}
             editLink={editLink}
             title={title}
+            id={id}
             url={url}/>) : (''
         )}
         </div>
@@ -56,6 +60,7 @@ const SavedLinks = ({ title, url, description, fave, removeLink, setUrl, setTitl
           <Popup
             setPopup={setPopup}  
             removeLink={removeLink}
+            id={id}
             title={title}/>) : (''
         )}
 
