@@ -5,21 +5,23 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
 import { BiBookmarkAlt, BiLinkAlt } from 'react-icons/bi'
+import DeleteAll from './DeleteAll';
 
 const Forms = () => {
 
   const [url, setUrl] = useState("")
   const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [fave, setFave] = useState(false)
-  const [edit, setEdit] = useState(false)
+  const [id, setId] = useState("")
   const [invalid, setInvalid] = useState(false)
-  const [newTitle, setNewTitle] = useState("")
-  const [newUrl, setNewUrl] = useState("")
+  const [allPopup, setAllPopup] = useState(false)
+  const [sameUrl, setsameUrl] = useState(false)
+  const [sameTitle, setsameTitle] = useState(false)
+  const [sameEditUrl, setsameEditUrl] = useState(false)
+  const [sameEditTitle, setsameEditTitle] = useState(false)
+  const [editInvalid, setEditInvalid] = useState(false)
 
   // const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
-
   const [currentPage, setCurrentPage] = useState(1)
   const [linksPerPage] = useState(5)
   const indexOfLastLink = currentPage * linksPerPage;
@@ -34,15 +36,9 @@ const Forms = () => {
     addLink()
     console.log(bookmarks)
 
+
     // window.localStorage.setItem("saved", JSON.stringify(bookmarks))
   }
-
-
-
-  // const doesExist = async (url: string) => {
-  //   return (await fetch(url)).ok
-  // }
-
 
   //! lots of false positives..
   // function isUrl(url: string): boolean {
@@ -69,20 +65,24 @@ const Forms = () => {
   //! create nice alerts/ messages
   function addLink() {
     const id = uuidv4()
-    const newBookmark = { id, title, url, fave }
+
+    const newBookmark = { id, title, url }
     if (isValidURL(url) === false) {
       // alert("not valid url")
       return setInvalid(true)
     }
-    // if (bookmarks.find(link => link.title === title)) {
-    //   return alert("title already present")
-    // }
+    if (bookmarks.find(link => link.title === title)) {
+      return setsameTitle(true)
+    }
     if (bookmarks.find(link => link.url === url)) {
-      return alert("url already present")
+      return setsameUrl(true)
     }
     setBookmarks([...bookmarks, newBookmark])
- 
-  
+    setId(id)
+    setTitle("")
+    setUrl("")
+
+
   }
 
   const paginate = (pgNumber: number) => setCurrentPage(pgNumber)
@@ -100,16 +100,19 @@ const Forms = () => {
   const editLink = (linkToEdit: string): void => {
     const index = bookmarks.findIndex(link => link.id === linkToEdit)
     const toEdit = bookmarks.filter(link => link.id !== linkToEdit)
-    const id =  bookmarks[index].id
+    const id = bookmarks[index].id
     const newEdit = { id, title, url }
     if (toEdit.find(link => link.title === title)) {
-      return alert("title already present")
+      alert("same title")
+      return setsameEditTitle(true)
     }
     if (toEdit.find(link => link.url === url)) {
-      return alert("url already present")
+      alert("same url")
+      return setsameEditUrl(true)
     }
-    if (!isValidURL(newEdit.url)) {
-      return alert("Invalid url")
+    if (isValidURL(newEdit.url) === false) {
+      alert("invalid")
+      return setEditInvalid(true)
     }
     setBookmarks([...toEdit, newEdit])
     // const edited = bookmarks.splice(index, 1, newEdit)
@@ -117,7 +120,11 @@ const Forms = () => {
     console.log(toEdit)
     console.log(bookmarks)
     console.log(index)
-    // console.log(edited)
+    setTitle("")
+    setUrl("")
+    setEditInvalid(false);
+    setsameEditUrl(false);
+    setsameEditTitle(false)
 
   }
 
@@ -134,19 +141,23 @@ const Forms = () => {
 
   return (
     <>
-      <div className="mt-10 flex flex-col justify-center items-center">
-        <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-3 w-3/5">
+      <div className="my-10 flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="flex flex-col justify-between w-1/2 lg:w-3/5 max-w-3xl">
           <div className="flex gap-1 my-5 font-semibold text-xl"><BiBookmarkAlt className="mt-1 mx-1" />Create bookmark</div>
 
-          <label>Website URL</label>
-          <input type="text" required pattern={regex} className="border rounded-lg p-1" value={url} placeholder="Enter URL" onChange={(e) => { setUrl(e.target.value); setInvalid(false) }}></input>
-          <div className="text-red-500 text-xs">{invalid && (<div> Invalid URL. Please try again.</div>)} </div>  <label >Title/ description</label>
-          <input type="text" value={title} className="border rounded-lg p-1" placeholder="Name" onChange={(e) => setTitle(e.target.value)}></input>
-          <button type="submit" disabled={!url} className="bg-gray-800 text-white disabled:bg-opacity-50 rounded-lg text-sm mt-5 py-2">Add bookmark</button>
+          <label className="my-1">Website URL</label>
+          <input type="text" required pattern={regex} className="border focus:outline-none rounded-lg p-1" value={url} placeholder="Enter URL" onChange={(e) => { setUrl(e.target.value); setInvalid(false); setsameUrl(false) }}></input>
+          <div className="text-red-500 text-xs">{invalid && (<div> Invalid URL. Please try again.</div>)} </div>
+          <div className="text-indigo-700 text-xs">{sameUrl && (<div> Same URL already exists.</div>)} </div>
+          <label className="mb-1 mt-5">Title/ description</label>
+          <input type="text" required value={title} className="border focus:outline-none rounded-lg p-1" placeholder="Title" onChange={(e) => { setTitle(e.target.value); setsameTitle(false) }}></input>
+          <div className="text-indigo-700 text-xs">{sameTitle && (<div> Same Title already exists.</div>)} </div>
+          <button type="submit" disabled={!url || !title} className="bg-gray-800 text-white disabled:bg-opacity-50 rounded-lg text-sm mt-10 py-2">Add bookmark</button>
         </form>
-        <div className="flex flex-col justify-between  mt-10 mx-10 w-3/5 border-t border-gray-400">
+        <div className="flex flex-col justify-between  mt-10 mx-10 max-w-3xl w-1/2 lg:w-3/5 border-t border-gray-400">
           <div className="flex my-8 font-semibold text-xl"><BiLinkAlt className="mt-1 mx-1" />Your links:</div>
           <div className="">
+
             {bookmarks.length > 0 ? <div className="flex flex-col items-center gap-5">  {currentLinks.map((item: BookmarkType) => (
               <div className="w-full">
                 <SavedLinks
@@ -158,15 +169,29 @@ const Forms = () => {
                   editLink={editLink}
                   setUrl={setUrl}
                   setTitle={setTitle}
-                               />
+                  editInvalid={editInvalid}
+                  sameEditUrl={sameEditUrl}
+                  sameEditTitle={sameEditTitle}
+                  setsameEditTitle={setsameEditTitle}
+                  setsameEditUrl={setsameEditUrl}
+                  setEditInvalid={setEditInvalid}
+                />
+
               </div>
             ))}
-              <Pagination linksPerPage={linksPerPage} totalLinks={bookmarks.length} paginate={paginate} next={next} previous={previous} />
-              <button className="text-sm rounded-lg px-3 py-2 bg-gray-900 text-slate-100" onClick={removeAll}>
+              <Pagination linksPerPage={linksPerPage} totalLinks={bookmarks.length} paginate={paginate} next={next} previous={previous}
+                currentPage={currentPage} />
+              <button className="text-sm rounded-lg px-3 py-2 bg-gray-900 text-slate-100" onClick={() => setAllPopup(true)}>
                 Clear all
-              </button></div>
-              : <div className="flex flex-col items-center mt-10"><p>No bookmarks yet</p>
-                <p className="text-gray-500 text-xs">Start adding now!</p></div>}
+              </button>
+              {allPopup ? (
+                <DeleteAll
+                  setAllPopup={setAllPopup}
+                  removeAll={removeAll}
+                />) : (''
+              )}</div>
+              : <div className="flex flex-col items-center my-10"><p>No bookmarks yet</p>
+                <p className="text-gray-500 text-xs mt-5">Start adding now!</p></div>}
           </div>
 
         </div>
