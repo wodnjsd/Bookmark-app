@@ -17,8 +17,6 @@ const Form22 = ({ handleSubmit }: Props) => {
   const [fave, setFave] = useState(false)
   const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
 
-
-
   return (
     <>
       <div className="mt-10 p-30 flex flex-col justify-center items-center">
@@ -30,7 +28,6 @@ const Form22 = ({ handleSubmit }: Props) => {
           <input required type="text" value={url} placeholder="URL" onChange={(e) => setUrl(e.target.value)}></input>
           <label>Description:</label>
           <input type="text" value={description} placeholder="description" onChange={(e) => setDescription(e.target.value)} />
-          {/* <label>Favourite?</label> */}
           <button type="submit" className="border">Save</button>
         </form>
 

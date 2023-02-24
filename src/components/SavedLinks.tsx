@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { SlPencil } from "react-icons/sl";
-import { HiOutlineTrash, HiOutlinePencil } from 'react-icons/hi2'
+import { HiOutlineTrash } from 'react-icons/hi2'
 import Popup from './Popup';
 import Editform from './Editform'
 
@@ -34,21 +34,21 @@ const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink, ed
 
   return (
     <>
-      <div className="flex flex-wrap sm:flex-nowrap justify-between items-center pr-2 py-2 border rounded-lg w-auto">
-       <div className="hidden sm:flex w-1/6  justify-center">
+      <div className="flex flex-wrap sm:flex-nowrap justify-between items-center pr-3 py-2 border rounded-lg w-auto">
+       <div className="hidden sm:flex w-1/6 flex-wrap justify-center">
        <img src={`https://www.google.com/s2/favicons?domain=${url}&sz=24`} />
        </div>
 
-        <div className="flex flex-col flex-wrap sm:flex-nowrap py-2 sm:border-l pl-6  sm:basis-2/3 overflow-clip">
+        <div className="flex flex-col flex-wrap py-2 overflow-hidden sm:border-l pl-6  sm:basis-2/3  ">
           <h3 className="text-md font-semibold">
             {title}
           </h3>
-          <a href={url} target="blank" className="  hover:text-gray-700 text-xs font-light flex-wrap leading-3 underline">
+          <a href={url} target="blank" className="  hover:text-gray-700 text-xs  font-light leading-3 underline">
             {url}
           </a>
          
         </div>
-        <div className="flex mx-5 text-lg my-1">
+        <div className="flex mx-2 text-lg my-1">
         <button disabled={popup}className="rounded-md p-1 ml-3 hover:shadow" onClick={() => setEdit(true)}><SlPencil /></button>
           <button disabled={edit} onClick={() => setPopup(true)} className="rounded-md p-1 ml-3 hover:shadow"><HiOutlineTrash /></button>
           {/* <button><HiOutlineStar />

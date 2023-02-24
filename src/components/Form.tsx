@@ -35,27 +35,13 @@ const Forms = () => {
     e.preventDefault()
     addLink()
     console.log(bookmarks)
-
-
-    // window.localStorage.setItem("saved", JSON.stringify(bookmarks))
   }
-
-  //! lots of false positives..
-  // function isUrl(url: string): boolean {
-  //   try {
-  //     new URL(url)
-  //     return true
-  //   } catch (err) {
-  //     return false
-  //   }
-  // }
 
 
   function isValidURL(url: string) {
     if (/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/g.test(url)) {
       return true
     } else {
-      // setInvalid(true)
       return false
     }
   }
@@ -81,8 +67,6 @@ const Forms = () => {
     setId(id)
     setTitle("")
     setUrl("")
-
-
   }
 
   const paginate = (pgNumber: number) => setCurrentPage(pgNumber)
@@ -110,19 +94,16 @@ const Forms = () => {
       alert("same url")
       return setsameEditUrl(true)
     }
-    if (isValidURL(newEdit.url) === false) {
+    if (isValidURL(url) === false) {
       alert("invalid")
       return setEditInvalid(true)
     }
     setBookmarks([...toEdit, newEdit])
-    // const edited = bookmarks.splice(index, 1, newEdit)
-    // setBookmarks([...edited])
     console.log(toEdit)
     console.log(bookmarks)
     console.log(index)
     setTitle("")
     setUrl("")
-    setEditInvalid(false);
     setsameEditUrl(false);
     setsameEditTitle(false)
 
@@ -146,13 +127,13 @@ const Forms = () => {
           <div className="flex gap-1 my-5 font-semibold text-xl"><BiBookmarkAlt className="mt-1 mx-1" />Create bookmark</div>
 
           <label className="my-1">Website URL</label>
-          <input type="text" required pattern={regex} className="border focus:outline-none rounded-lg p-1" value={url} placeholder="Enter URL" onChange={(e) => { setUrl(e.target.value); setInvalid(false); setsameUrl(false) }}></input>
+          <input type="text" required pattern={regex} className="border p-1" value={url} placeholder="Enter URL" onChange={(e) => { setUrl(e.target.value); setInvalid(false); setsameUrl(false) }}></input>
           <div className="text-red-500 text-xs">{invalid && (<div> Invalid URL. Please try again.</div>)} </div>
           <div className="text-indigo-700 text-xs">{sameUrl && (<div> Same URL already exists.</div>)} </div>
           <label className="mb-1 mt-5">Title/ description</label>
-          <input type="text" required value={title} className="border focus:outline-none rounded-lg p-1" placeholder="Title" onChange={(e) => { setTitle(e.target.value); setsameTitle(false) }}></input>
+          <input type="text" required value={title} className="border p-1" placeholder="Title" onChange={(e) => { setTitle(e.target.value); setsameTitle(false) }}></input>
           <div className="text-indigo-700 text-xs">{sameTitle && (<div> Same Title already exists.</div>)} </div>
-          <button type="submit" disabled={!url || !title} className="bg-gray-800 text-white disabled:bg-opacity-50 rounded-lg text-sm mt-10 py-2">Add bookmark</button>
+          <button type="submit" disabled={!url || !title} className="bg-gray-800 text-white disabled:bg-opacity-50 text-sm mt-10 ">Add bookmark</button>
         </form>
         <div className="flex flex-col justify-between  mt-10 mx-10 max-w-3xl w-1/2 lg:w-3/5 border-t border-gray-400">
           <div className="flex my-8 font-semibold text-xl"><BiLinkAlt className="mt-1 mx-1" />Your links:</div>
