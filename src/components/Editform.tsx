@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+import { useEditContext } from '../context/Contexts';
 
 type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -7,16 +8,11 @@ type Props = {
   title: string;
   url: string;
   id: string;
-  editInvalid: boolean;
-  sameEditUrl: boolean;
-  sameEditTitle: boolean
   editLink(linkToEdit: string): void
-  setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
-  setsameEditUrl: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-}
+ }
 
-const Editform = ({ title, setEdit, url, id, setUrl, setTitle, editLink, editInvalid, sameEditTitle, sameEditUrl, setEditInvalid, setsameEditUrl, setsameEditTitle }: Props) => {
+const Editform = ({ title, setEdit, url, id, setUrl, setTitle, editLink }: Props) => {
+  const { sameEditTitle, setsameEditTitle, editInvalid, setEditInvalid, sameEditUrl, setsameEditUrl } = useEditContext()
 
   const handleSubmit = (e: FormEvent): void => {
     // no refreshing

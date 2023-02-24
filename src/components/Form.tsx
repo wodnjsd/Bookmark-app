@@ -6,9 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
 import { BiBookmarkAlt, BiLinkAlt } from 'react-icons/bi'
 import DeleteAll from './DeleteAll';
+import { useEditContext } from '../context/Contexts'
 
 const Forms = () => {
-
+  const { setsameEditTitle, setEditInvalid, setsameEditUrl } = useEditContext()
   const [url, setUrl] = useState("")
   const [title, setTitle] = useState("")
   const [id, setId] = useState("")
@@ -16,10 +17,6 @@ const Forms = () => {
   const [allPopup, setAllPopup] = useState(false)
   const [sameUrl, setsameUrl] = useState(false)
   const [sameTitle, setsameTitle] = useState(false)
-  const [sameEditUrl, setsameEditUrl] = useState(false)
-  const [sameEditTitle, setsameEditTitle] = useState(false)
-  const [editInvalid, setEditInvalid] = useState(false)
-
   // const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
   const [currentPage, setCurrentPage] = useState(1)
@@ -150,12 +147,6 @@ const Forms = () => {
                   editLink={editLink}
                   setUrl={setUrl}
                   setTitle={setTitle}
-                  editInvalid={editInvalid}
-                  sameEditUrl={sameEditUrl}
-                  sameEditTitle={sameEditTitle}
-                  setsameEditTitle={setsameEditTitle}
-                  setsameEditUrl={setsameEditUrl}
-                  setEditInvalid={setEditInvalid}
                 />
 
               </div>

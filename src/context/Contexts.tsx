@@ -1,62 +1,36 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-import { BookmarkType } from "../types/bookmark";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
-type BookmarkProviderProps = {
+type EditProviderProps = {
   children: ReactNode
 }
 
-type BookmarkContext = {
-  bookmarks: BookmarkType[]
+type EditContext = {
+  editInvalid: boolean;
+  sameEditUrl: boolean;
+  sameEditTitle: boolean;
+  setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
+  setsameEditUrl: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
-const BookmarkContext = createContext({} as BookmarkContext)
+const EditContext = createContext({} as EditContext)
 
 
-export function useBookmarkContext() {
-  return useContext(BookmarkContext)
+export function useEditContext() {
+  return useContext(EditContext)
 }
 
 
-export function BookmarkProvider({ children }: BookmarkProviderProps) {
-  const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
+export function EditProvider({ children }: EditProviderProps) {
 
-  // const editLink = (linkToEdit: string): void => {
+  const [sameEditTitle, setsameEditTitle] = useState(false)
+  const [sameEditUrl, setsameEditUrl] = useState(false)
+  const [editInvalid, setEditInvalid] = useState(false)
 
-  //   const index = bookmarks.findIndex(link => link.title === linkToEdit)
-  //   const toEdit = bookmarks.filter(link => link.title !== linkToEdit)
-  //   const newEdit = { title, url, description, fave }
-  //   if (toEdit.find(link => link.title === title)) {
-  //     return alert("title already present")
-  //   }
-  //   if (toEdit.find(link => link.url === url)) {
-  //     return alert("url already present")
-  //   }
-  //   setBookmarks([...toEdit, newEdit])
-  //   // const edited = bookmarks.splice(index, 1, newEdit)
-  //   // setBookmarks([...edited])
-  //   console.log(toEdit)
-  //   console.log(bookmarks)
-  //   console.log(index)
-  //   // console.log(edited)
 
-  // }
-  function addLink() {
-    const newBookmark = { title, url, description, fave }
-    // if (isUrl(url) === false) {
-    //   return alert("not valid url")
-    // }
-    if (bookmarks.find(link => link.title === title)) {
-      return alert("title already present")
-    }
-    if (bookmarks.find(link => link.url === url)) {
-      return alert("url already present")
-    }
-    setBookmarks([...bookmarks, newBookmark])
-  }
-
-  return (<BookmarkContext.Provider value={{ bookmarks }}>
+  return (<EditContext.Provider value={{ sameEditUrl, editInvalid, setsameEditUrl, setEditInvalid,  setsameEditTitle, sameEditTitle }}>
     {children}
-  </BookmarkContext.Provider>
+  </EditContext.Provider>
   )
 }

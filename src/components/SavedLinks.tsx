@@ -13,12 +13,6 @@ type Props = {
   editLink(linkToEdit: string): void
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
-  editInvalid: boolean;
-  sameEditUrl: boolean;
-  sameEditTitle: boolean;
-  setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
-  setsameEditUrl: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditInvalid: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
@@ -28,7 +22,7 @@ type Props = {
 //   ))
 // }
 
-const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink, editInvalid, sameEditTitle, sameEditUrl, setEditInvalid, setsameEditTitle, setsameEditUrl }: Props) => {
+const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink }: Props) => {
   const [edit, setEdit] = useState(false)
   const [popup, setPopup] = useState(false)
 
@@ -59,15 +53,10 @@ const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink, ed
             setUrl={setUrl}
             setTitle={setTitle}
             editLink={editLink}
-            setsameEditUrl={setsameEditUrl}
-            setsameEditTitle={setsameEditTitle}
             title={title}
             id={id}
             url={url}
-            setEditInvalid={setEditInvalid}
-            editInvalid={editInvalid}
-            sameEditUrl={sameEditUrl}
-            sameEditTitle={sameEditTitle}/>) : (''
+            />) : (''
         )}
         </div>
         {popup ? (
