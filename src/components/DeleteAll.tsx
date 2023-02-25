@@ -1,5 +1,7 @@
 import React from 'react'
 
+//Popup when deleting all bookmarks 
+
 type Props = {
   setAllPopup: React.Dispatch<React.SetStateAction<boolean>>;
   removeAll(): void;

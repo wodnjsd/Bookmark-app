@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react'
 
-// type ReturnType<T> =[
-//   T | undefined,
-//   React.Dispatch<React.SetStateAction<T>
-
-// ]
 
 export const useLocalStorage = <T, >(key: string, initialValue?: T | (() => T)) => {
   const [value, setValue] = useState<T | undefined>(() => {

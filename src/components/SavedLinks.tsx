@@ -3,6 +3,7 @@ import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from 'react-icons/hi2'
 import Popup from './Popup';
 import Editform from './Editform'
+import { useEditContext } from '../context/Contexts';
 
 type Props = {
   title: string 
@@ -10,9 +11,11 @@ type Props = {
   id: string;
   fave?: boolean;
   removeLink(linkToDelete: string): void;
-  editLink(linkToEdit: string): void
+  editLink(id:string ): void
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
+  sameEditTitle: boolean;
 
 }
 
@@ -22,8 +25,9 @@ type Props = {
 //   ))
 // }
 
-const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink }: Props) => {
+const SavedLinks = ({ id, title, url, removeLink, editLink, setsameEditTitle, sameEditTitle, setUrl, setTitle }: Props) => {
   const [edit, setEdit] = useState(false)
+  // const { edit, setEdit } = useEditContext()
   const [popup, setPopup] = useState(false)
 
   return (
@@ -43,19 +47,22 @@ const SavedLinks = ({ title, url, id, removeLink, setUrl, setTitle, editLink }: 
          
         </div>
         <div className="flex mx-2 text-lg my-1">
-        <button disabled={popup}className="rounded-md p-1 ml-3 hover:shadow" onClick={() => setEdit(true)}><SlPencil /></button>
+        <button disabled={popup}className="rounded-md p-1 ml-3 hover:shadow" onClick={() =>{setEdit(true); console.log(title)}}><SlPencil /></button>
           <button disabled={edit} onClick={() => setPopup(true)} className="rounded-md p-1 ml-3 hover:shadow"><HiOutlineTrash /></button>
           {/* <button><HiOutlineStar />
           </button> */}
           {edit ? (
           <Editform
             setEdit={setEdit}
-            setUrl={setUrl}
-            setTitle={setTitle}
-            editLink={editLink}
             title={title}
             id={id}
             url={url}
+            setUrl={setUrl}
+            setTitle={setTitle}
+            editLink={editLink}
+            setsameEditTitle={setsameEditTitle}
+            sameEditTitle={sameEditTitle}
+          
             />) : (''
         )}
         </div>

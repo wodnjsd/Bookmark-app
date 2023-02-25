@@ -17,31 +17,31 @@ const Pagination = ({ linksPerPage, totalLinks, currentPage, paginate, next, pre
     pageNumbers.push(i)
   }
 
-
   return (
-    <nav >
+    <nav className="my-2">
       <ul className="flex justify-between gap-3">
         <li>
-          <a onClick={(e) => {previous(); e.preventDefault()}} href='#'>
-            <HiArrowLongLeft className="hover:text-lg mx-2 mt-1"/>
+          {totalLinks !== 0 && <a onClick={(e) => { previous(); e.preventDefault() }} href='#'>
+            <HiArrowLongLeft className="hover:text-lg mx-2 mt-1" />
           </a>
+          }
         </li>
         {pageNumbers.map(pgNumber => (
           <li key={pgNumber}>
-            {pgNumber === currentPage? (<a onClick={(e) => {paginate(pgNumber); e.preventDefault()}} href="#" className="opacity-70 underline underline-offset-2">
+            {pgNumber === currentPage ? (<a onClick={(e) => { paginate(pgNumber); e.preventDefault() }} href="#" className="opacity-70 underline underline-offset-2">
               {pgNumber}
             </a>) : (
-            <a onClick={(e) => {paginate(pgNumber); e.preventDefault()}} href="#" className="hover:underline underline-offset-2">
-              {pgNumber}
-            </a>
+              <a onClick={(e) => { paginate(pgNumber); e.preventDefault() }} href="#" className="hover:underline underline-offset-2">
+                {pgNumber}
+              </a>
             )}
           </li>
-
         ))}
         <li>
-          <a onClick={(e) => {next(); e.preventDefault()}} href='#' className="hover:text-lg">
-            <HiArrowLongRight className="mx-2 mt-1"/>
+          {totalLinks !== 0 && <a onClick={(e) => { next(); e.preventDefault() }} href='#' className="hover:text-lg">
+            <HiArrowLongRight className="mx-2 mt-1" />
           </a>
+          }
         </li>
       </ul>
     </nav>
