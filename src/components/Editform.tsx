@@ -2,11 +2,16 @@ import { FormEvent } from 'react'
 import { useEditContext } from '../context/Contexts';
 import bookmark from '../assets/Bookmark.json'
 import Lottie from "lottie-react";
+import { motion } from "framer-motion"
 
 //Popup when editing bookmark
 
 type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  // editTitle: string;
+  // setEditTitle: React.Dispatch<React.SetStateAction<string>>;
+  // setEditUrl: React.Dispatch<React.SetStateAction<string>>;
+  // editUrl: string
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,23 +19,29 @@ type Props = {
   title: string;
   url: string;
   id: string;
-  editLink(id:string): void
+  editLink(id:string): void;
+  handleEdit(e: FormEvent): void
+  setEdited: React.Dispatch<React.SetStateAction<boolean>>;
+  
  }
 
-const Editform = ({ sameEditTitle, setsameEditTitle, id, title, url, setEdit, editLink,  setTitle, setUrl  }: Props) => {
-  const {  editInvalid, setEditInvalid, sameEditUrl, setsameEditUrl,} = useEditContext()
+const Editform = ({ handleEdit, sameEditTitle, setsameEditTitle, setEdited, title, url, setTitle, setUrl, setEdit  }: Props) => {
+  const { editInvalid, setEditInvalid, sameEditUrl, setsameEditUrl,} = useEditContext()
 
-  const handleSubmit = (e: FormEvent): void => {
-    // no refreshing
-    e.preventDefault()
-    editLink(id)
-  }
-  
-  
+
+
+   
   return (
     <div className="fixed h-full w-screen flex flex-col left-0 top-0 justify-center items-center z-20 backdrop-blur-lg">
-      <div className="mx-10 flex flex-col justify-between rounded-lg bg-white text-sm">
-      
+      <motion.div className="mx-10 flex flex-col justify-between rounded-lg bg-white text-sm"
+      whileInView="visible"
+      initial="hidden"
+      transition={{ delay:0.2, duration: 0.5 }}
+      variants={{
+        hidden: { opacity: 0.7, x: -50, },
+        visible: { opacity: 1, x: 0, y: 0 },
+      }}
+      >
         <div className="text-gray-600 flex justify-between gap-4">
            <p className="m-5">Make changes to your bookmarks here. Click save when you're done.</p>
     
@@ -38,7 +49,7 @@ const Editform = ({ sameEditTitle, setsameEditTitle, id, title, url, setEdit, ed
          
           </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col p-4" >
+        <form onSubmit={handleEdit} className="flex flex-col p-4" >
           <label>Title</label>
           <input type="text" required  defaultValue={title} placeholder={title} onChange={(e) => {setTitle(e.target.value); setUrl(url); setsameEditTitle(false)}} >
           </input>
@@ -52,12 +63,12 @@ const Editform = ({ sameEditTitle, setsameEditTitle, id, title, url, setEdit, ed
             <button type="submit" className="border px-5 text-xs text-white bg-gray-800 disabled:bg-opacity-50 ">
               Save changes
             </button>
-            <button type="button" onClick={() => {setEdit(false); setEditInvalid(false); setsameEditUrl(false);  setsameEditTitle(false);}} className="border px-5 text-xs">
+            <button type="button" onClick={() => {setEdit(false); setEditInvalid(false); setsameEditUrl(false); setEdited(false); setsameEditTitle(false);}} className="border px-5 text-xs">
               Cancel
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   )
 }

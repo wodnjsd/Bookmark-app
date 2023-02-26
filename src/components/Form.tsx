@@ -8,8 +8,9 @@ import { BiBookmarkAlt, BiLinkAlt } from 'react-icons/bi'
 import DeleteAll from './DeleteAll';
 import { useEditContext } from '../context/Contexts'
 
+
 const Forms = () => {
-  const { setEditInvalid, setsameEditUrl} = useEditContext()
+ 
   const [bookmarks, setBookmarks] = useLocalStorage<BookmarkType[]>("saved", [])
   const [url, setUrl] = useState("")
   const [title, setTitle] = useState("")
@@ -19,8 +20,11 @@ const Forms = () => {
   const [sameUrl, setsameUrl] = useState(false)
   const [sameTitle, setsameTitle] = useState(false)
   const [search, setSearch] = useState("")
+  const { setEditInvalid, setsameEditUrl, closeEdit } = useEditContext()
   const [sameEditTitle, setsameEditTitle] = useState(false)
-  // const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
+  const [edited, setEdited] = useState(false)
+
+  //const [faves, setFaves] = useLocalStorage<BookmarkType[]>("faves", [])
 
   const filteredLinks =
     bookmarks.filter((link) =>
@@ -41,6 +45,12 @@ const Forms = () => {
     e.preventDefault()
     addLink()
     console.log(bookmarks)
+  }
+
+  const handleEdit = (e: FormEvent): void => {
+    // no refreshing
+    e.preventDefault()
+    editLink(id)
   }
 
   // Check if URL valid with regex
@@ -107,16 +117,19 @@ const Forms = () => {
     //   alert("invalid")
     //   return setEditInvalid(true)
     // }
-    setBookmarks([...toEdit, newEdit])
+    // (bookmarks.splice(index, 0, newEdit))
+    bookmarks.splice(index, 1, newEdit)
+    setBookmarks(bookmarks)
     console.log(toEdit)
     console.log(bookmarks)
     console.log(newEdit)
+    console.log(index)
     setTitle("")
     setUrl("")
-    // setEdit(false)
     setEditInvalid(false)
     setsameEditUrl(false);
     setsameEditTitle(false)
+    setEdited(true)
 
   }
 
@@ -146,30 +159,34 @@ const Forms = () => {
           <label className="mb-1 mt-5">Title/ description</label>
           <input type="text" required value={title} className="border p-1" placeholder="Title" onChange={(e) => { setTitle(e.target.value); setsameTitle(false) }}></input>
           <div className="text-indigo-700 text-xs">{sameTitle && (<div> Same Title already exists.</div>)} </div>
-          <button type="submit" disabled={!url || !title} className="bg-gray-800 text-white disabled:bg-opacity-50 text-sm mt-10 ">Add bookmark</button>
+          <button type="submit" disabled={!url || !title} className="bg-gray-900 text-white disabled:bg-opacity-50 disabled:shadow-none text-sm mt-10 ">Add bookmark</button>
         </form>
         <div className="flex flex-col justify-between  mt-10 mx-10 max-w-3xl w-1/2 lg:w-3/5 border-t border-gray-400">
           <div className="flex flex-col sm:flex-row justify-between items-center my-8">
             <div className="flex font-semibold text-xl py-3"><BiLinkAlt className="mt-1 mx-1" />Your links:</div>
-            <input type="text" placeholder="...Search" className="h-8 text-sm" value={search} onChange={(e) => { setSearch(e.target.value) }} />
+            <input type="text" placeholder="Search..." className="h-8 text-sm" value={search} onChange={(e) => { setSearch(e.target.value) }} />
           </div>
 
           {bookmarks.length > 0 ? <div className="flex flex-col items-center gap-5">  {currentLinks.map((item: BookmarkType) => (
             <div className="w-full">
               <SavedLinks
                 key={item.id}
+                edited={edited}
+                setEdited={setEdited}
                 id={item.id}
                 title={item.title}
                 url={item.url}
                 removeLink={removeLink}
-                editLink={editLink}
                 setUrl={setUrl}
                 setTitle={setTitle}
-                setsameEditTitle={setsameEditTitle}
                 sameEditTitle={sameEditTitle}
-              />
-
-            </div>
+                editLink={editLink}
+                setsameEditTitle={setsameEditTitle}
+              
+               />
+           
+          </div>
+          
           ))}
             <Pagination linksPerPage={linksPerPage} totalLinks={filteredLinks.length} paginate={paginate} next={next} previous={previous}
               currentPage={currentPage} />
