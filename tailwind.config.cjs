@@ -1,16 +1,21 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        'chillax': ['Chillax', 'sans-serif'],
+        chillax: ["Chillax", "sans-serif"],
         // 'inter': ['Inter', 'sans-serif']
-      }
+      },
+      backgroundImage: {
+        banner: "url(./src/assets/background.jpg)",
+      },
+      colors: {
+        neutral: "#F5EFEF",
+        pink: "#dfb7b7"
+      },
     },
   },
   plugins: [],
-}
+};

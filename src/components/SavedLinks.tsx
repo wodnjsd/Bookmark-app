@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from 'react-icons/hi2'
-import Popup from './Popup';
+import Popup from './DeletePopup';
 import Editform from './Editform'
 
 
@@ -14,14 +14,12 @@ type Props = {
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   editLink(id: string): void
-  sameEditTitle: boolean;
-  setsameEditTitle: React.Dispatch<React.SetStateAction<boolean>>;
   edited:boolean;
   setEdited: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
-const SavedLinks = ({ edited, setEdited, setsameEditTitle, sameEditTitle, editLink, id, title, url, removeLink, setUrl, setTitle }: Props) => {
+const SavedLinks = ({ edited, setEdited, editLink, id, title, url, removeLink, setUrl, setTitle }: Props) => {
 
   
 const [edit, setEdit] = useState(false)
@@ -63,8 +61,8 @@ const [edit, setEdit] = useState(false)
               setUrl={setUrl}
               setTitle={setTitle}
               editLink={editLink}
-              setsameEditTitle={setsameEditTitle}
-              sameEditTitle={sameEditTitle}
+              // setsameEditTitle={setsameEditTitle}
+              // sameEditTitle={sameEditTitle}
               handleEdit={handleEdit}
               setEdited={setEdited}
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { BookmarkType } from "../types/bookmark";
+
+
 //useContext for EditForm errors- duplicates/ invalid url
 
 type EditProviderProps = {
@@ -8,9 +8,6 @@ type EditProviderProps = {
 }
 
 type EditContext = {
-  openEdit: () => void;
-  closeEdit: () => void;
-  edit: boolean;
   editInvalid: boolean;
   sameEditUrl: boolean;
   sameEditTitle: boolean;
@@ -27,16 +24,14 @@ export function useEditContext() {
 }
 
 export function EditProvider({ children }: EditProviderProps) {
-  const [edit, setEdit] = useState(false)
+
   const [sameEditTitle, setsameEditTitle] = useState(false)
   const [sameEditUrl, setsameEditUrl] = useState(false)
   const [editInvalid, setEditInvalid] = useState(false)
 
-  const openEdit = () => setEdit(true)
-  const closeEdit = () => setEdit(false)
 
 
-  return (<EditContext.Provider value={{ edit, openEdit, closeEdit, sameEditUrl, editInvalid, setsameEditUrl, setEditInvalid, setsameEditTitle, sameEditTitle }}>
+  return (<EditContext.Provider value={{ sameEditUrl, editInvalid, setsameEditUrl, setEditInvalid, setsameEditTitle, sameEditTitle }}>
     {children}
   </EditContext.Provider>
   )
