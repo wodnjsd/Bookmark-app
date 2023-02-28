@@ -109,7 +109,7 @@ const Forms = () => {
     setAdded(true)
     setTimeout(() => {
       setAdded(false)
-    }, 800)
+    }, 1000)
   }
 
 

@@ -9,7 +9,7 @@ module.exports = {
         // 'inter': ['Inter', 'sans-serif']
       },
       backgroundImage: {
-        banner: "url(./src/assets/background.jpg)",
+        banner: "url(./src/assets/backgrounds.svg)",
       },
       colors: {
         neutral: "#FFFAFA",

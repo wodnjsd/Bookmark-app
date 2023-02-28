@@ -7,9 +7,7 @@ export default defineConfig({
   define: {
     "global": {},
   },
-  resolve: {
-    alias: {
-      path: "https-browserify",
-    },
+  build: {
+    chunkSizeWarningLimit: 600,
   },
 })

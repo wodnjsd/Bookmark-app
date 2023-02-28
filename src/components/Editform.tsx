@@ -28,7 +28,7 @@ const Editform = ({ title, url, setTitle, setUrl, handleEdit, setEdit }: Props) 
         initial="hidden"
         transition={{
           delay: 0.2,
-           duration: 0.5 }}
+           duration: 0.6 }}
         variants={{
           hidden: {y: 100 },
           visible: {  y: 0 },
