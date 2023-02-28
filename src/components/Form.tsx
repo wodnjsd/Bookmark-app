@@ -58,7 +58,6 @@ const Forms = () => {
     // no refreshing
     e.preventDefault()
     addLink()
-    console.log(bookmarks)
   }
 
   // Check if URL valid with regex
@@ -142,7 +141,7 @@ const Forms = () => {
     setEditInvalid(false)
     setsameEditUrl(false);
     setsameEditTitle(false)
-    console.log(newEdit)
+    // console.log(newEdit)
     return true
   }
 

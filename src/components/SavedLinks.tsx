@@ -52,7 +52,7 @@ const SavedLinks = ({ id, title, url, removeLink, setUrl, setTitle, editLink, }:
           </a>
         </div>
         <div className="flex mx-2 text-lg my-1">
-          <button disabled={popup} className="rounded-md p-1 ml-3 hover:shadow" onClick={() => { setEdit(true), setTitle(title); setUrl(url); console.log(title) }}><SlPencil /></button>
+          <button disabled={popup} className="rounded-md p-1 ml-3 hover:shadow" onClick={() => { setEdit(true), setTitle(title); setUrl(url) }}><SlPencil /></button>
           <button disabled={edit} onClick={() => setPopup(true)} className="rounded-md p-1 ml-3 hover:shadow"><HiOutlineTrash /></button>
           {/* triggeres editing form when edit button pressed */}
           {edit ?
