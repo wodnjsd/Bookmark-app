@@ -11,7 +11,7 @@ const Home = () => {
           bookmarks
         </div>
       </div>
-      <div className="bg-pink">
+      <div className="bg-neutral">
       <EditProvider>
         <Form />
         <Footer />

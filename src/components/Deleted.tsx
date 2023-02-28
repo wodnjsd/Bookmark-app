@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion"
 
-//Popup when deleting all bookmarks 
+//Popup notification when bookmark/bookmarks deleted
 
 
 
 const Deleted = () => {
   return (
-    <div className="fixed h-screen w-screen flex flex-col justify-center items-center top-0 left-0 z-20 backdrop-blur-sm">
+    <div className="fixed h-screen w-screen flex flex-col justify-center items-center top-0 left-0 z-20 backdrop-blur backdrop-brightness-50">
       <motion.div className="p-1 rounded-lg bg-gray-800 "
       whileInView="visible"
       initial="hidden"

@@ -31,7 +31,9 @@ export function EditProvider({ children }: EditProviderProps) {
 
 
 
-  return (<EditContext.Provider value={{ sameEditUrl, editInvalid, setsameEditUrl, setEditInvalid, setsameEditTitle, sameEditTitle }}>
+
+
+  return (<EditContext.Provider value={{ sameEditUrl, sameEditTitle , editInvalid, setsameEditUrl, setEditInvalid, setsameEditTitle }}>
     {children}
   </EditContext.Provider>
   )

@@ -12,7 +12,7 @@ module.exports = {
         banner: "url(./src/assets/background.jpg)",
       },
       colors: {
-        neutral: "#F5EFEF",
+        neutral: "#FFFAFA",
         pink: "#dfb7b7"
       },
     },

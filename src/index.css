@@ -8,7 +8,7 @@
     @apply  rounded-lg py-2 hover:shadow-lg
   }
   input {
-    @apply border p-1 rounded-lg focus:border-gray-300 bg-neutral focus:outline-none
+    @apply border border-gray-300 p-1 rounded-lg focus:border-gray-400 bg-neutral focus:outline-none
   }
 }
 @tailwind components;

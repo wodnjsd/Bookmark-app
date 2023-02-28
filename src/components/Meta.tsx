@@ -1,17 +1,28 @@
-// import { url } from 'inspector'
-// import metascraper from 'metadata-scraper'
-
-
-// type Props = {}
-
-// const Meta = (props: Props) => {
+// import ky from "ky-universal"
 
 
 
+// const Exists = (url:string) => {
 
+
+//   const urlExists = async (url: string): Promise<boolean> => {
+
+
+//     const response = await ky.head(url, {
+//       throwHttpErrors: false
+//     })
+//     console.log(response.status)
+//     return response !== undefined && (response.status < 400 || response.status >= 500)
+
+
+
+
+//   }
 //   return (
-//    <div>meta</div>
+//     urlExists(url)
+
 //   )
+
 // }
 
-// export default Meta
+// export default Exists

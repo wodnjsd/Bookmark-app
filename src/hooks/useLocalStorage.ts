@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+//using Local storage to store list of bookmarks 
 
 export const useLocalStorage = <T, >(key: string, initialValue?: T | (() => T)) => {
   const [value, setValue] = useState<T | undefined>(() => {

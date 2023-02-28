@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from "framer-motion"
 
-//Popup when deleting all bookmarks 
+//Confirmation popup to delete all bookmarks 
 
 type Props = {
   setAllPopup: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,14 +11,14 @@ type Props = {
 
 const DeleteAll = ({ setAllPopup, removeAll }: Props) => {
   return (
-    <div className="fixed h-screen w-screen flex flex-col justify-center items-center top-0 left-0 z-20 backdrop-blur-lg">
+    <div className="fixed h-screen w-screen flex flex-col justify-center items-center top-0 left-0 z-20 backdrop-blur backdrop-brightness-50">
       <motion.div className="flex flex-col justify-between p-10 rounded-lg bg-neutral"
       whileInView="visible"
       initial="hidden"
       transition={{ delay:0.1, duration:0.4}}
       variants={{
-        hidden: {opacity: 0.7, y:40},
-        visible: {opacity: 1, y:0}
+        hidden: {opacity: 0.7, scale:0.8},
+        visible: {opacity: 1, scale:1}
       }}>
       <div className="text-gray-600 text-sm"> Are you sure you want to delete all your bookmarks?</div>
       <div className="flex justify-start gap-5 mt-5">
